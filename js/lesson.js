@@ -42,6 +42,9 @@ const showTabContent = (indexElement = 0) => {
   tabItems[indexElement].classList.add("tab_content_item_active");
 };
 
+hideTabContent();
+showTabContent();
+
 function autoSlide() {
   hideTabContent();
   currentIndex = (currentIndex + 1) % tabContentBlocks.length;

@@ -22,6 +22,7 @@ modal.onclick = (event) => {
   }
 };
 
+let modalTimer;
 function checkScrollAndShowModal() {
   const windowHeight = window.innerHeight;
   const documentHeight = document.documentElement.scrollHeight;
@@ -33,10 +34,10 @@ function checkScrollAndShowModal() {
 
     // Удаляем обработчик события после первого вызова
     window.removeEventListener("scroll", checkScrollAndShowModal);
+    clearTimeout(modalTimer);
   }
 }
 
 // Добавляем обработчик события scroll
 window.addEventListener("scroll", checkScrollAndShowModal);
-
-window.onload = () => setTimeout(openModal, 10000);
+window.onload = () => (modalTimer = setTimeout(openModal, 10000));
