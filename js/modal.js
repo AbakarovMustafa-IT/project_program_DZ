@@ -38,6 +38,5 @@ function checkScrollAndShowModal() {
   }
 }
 
-// Добавляем обработчик события scroll
 window.addEventListener("scroll", checkScrollAndShowModal);
 window.onload = () => (modalTimer = setTimeout(openModal, 10000));

@@ -66,3 +66,64 @@ parentTabs.onclick = (event) => {
     });
   }
 };
+
+// CONVERTER
+
+const som = document.querySelector("#som");
+const usd = document.querySelector("#usd");
+const eur = document.querySelector("#eur");
+
+// som.addEventListener("input", () => {
+//   const request = new XMLHttpRequest();
+//   request.open("GET", "../data/converter.json");
+//   request.setRequestHeader("Content-type", "application/json");
+//   request.send();
+//   request.addEventListener("load", () => {
+//     const response = JSON.parse(request.response);
+//     usd.value = (som.value / response.usd).toFixed(2);
+//   });
+// });
+
+// usd.addEventListener("input", () => {
+//   const request = new XMLHttpRequest();
+//   request.open("GET", "../data/converter.json");
+//   request.setRequestHeader("Content-type", "application/json");
+//   request.send();
+//   request.addEventListener("load", () => {
+//     const response = JSON.parse(request.response);
+//     som.value = (usd.value * response.usd).toFixed(2);
+//   });
+// });
+
+// DRY - don`t repeat yourself
+// KISS - Keep it simple, stupid
+// KISS - Keep it short and simple
+
+const converter = (element, target, target2, currency) => {
+  element.oninput = () => {
+    const request = new XMLHttpRequest();
+    request.open("GET", "../data/converter.json");
+    request.setRequestHeader("Content-type", "application/json");
+    request.send();
+
+    request.onload = () => {
+      const response = JSON.parse(request.response);
+      if (currency === "som") {
+        target.value = (element.value / response.usd).toFixed(2);
+        target2.value = (element.value / response.eur).toFixed(2);
+      } else if (currency === "usd") {
+        target.value = (element.value * response.usd).toFixed(2);
+        target2.value = (element.value * response.eur).toFixed(2);
+      } else if (currency === "eur") {
+        target.value = (element.value * response.eur).toFixed(2);
+        target2.value = (element.value * response.usd).toFixed(2);
+      }
+      // element.value === "" ? (target.value = "") : false;
+      element.value === "" && ((target.value = ""), (target2.value = ""));
+    };
+  };
+};
+
+converter(som, usd, eur, "som");
+converter(usd, som, eur, "usd");
+converter(eur, som, usd, "eur");
