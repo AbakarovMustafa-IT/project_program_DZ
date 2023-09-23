@@ -69,9 +69,9 @@ parentTabs.onclick = (event) => {
 
 // CONVERTER
 
-const som = document.querySelector("#som");
-const usd = document.querySelector("#usd");
-const eur = document.querySelector("#eur");
+// const som = document.querySelector("#som");
+// const usd = document.querySelector("#usd");
+// const eur = document.querySelector("#eur");
 
 // som.addEventListener("input", () => {
 //   const request = new XMLHttpRequest();
@@ -99,31 +99,62 @@ const eur = document.querySelector("#eur");
 // KISS - Keep it simple, stupid
 // KISS - Keep it short and simple
 
-const converter = (element, target, target2, currency) => {
-  element.oninput = () => {
-    const request = new XMLHttpRequest();
-    request.open("GET", "../data/converter.json");
-    request.setRequestHeader("Content-type", "application/json");
-    request.send();
+// const converter = (element, target, target2, currency) => {
+//   element.oninput = () => {
+//     const request = new XMLHttpRequest();
+//     request.open("GET", "../data/converter.json");
+//     request.setRequestHeader("Content-type", "application/json");
+//     request.send();
 
-    request.onload = () => {
-      const response = JSON.parse(request.response);
-      if (currency === "som") {
-        target.value = (element.value / response.usd).toFixed(2);
-        target2.value = (element.value / response.eur).toFixed(2);
-      } else if (currency === "usd") {
-        target.value = (element.value * response.usd).toFixed(2);
-        target2.value = (element.value * response.eur).toFixed(2);
-      } else if (currency === "eur") {
-        target.value = (element.value * response.eur).toFixed(2);
-        target2.value = (element.value * response.usd).toFixed(2);
-      }
-      // element.value === "" ? (target.value = "") : false;
-      element.value === "" && ((target.value = ""), (target2.value = ""));
-    };
+//     request.onload = () => {
+//       const response = JSON.parse(request.response);
+//       if (currency === "som") {
+//         target.value = (element.value / response.usd).toFixed(2);
+//         target2.value = (element.value / response.eur).toFixed(2);
+//       } else if (currency === "usd") {
+//         target.value = (element.value * response.usd).toFixed(2);
+//         target2.value = (element.value * response.eur).toFixed(2);
+//       } else if (currency === "eur") {
+//         target.value = (element.value * response.eur).toFixed(2);
+//         target2.value = (element.value * response.usd).toFixed(2);
+//       }
+//       // element.value === "" ? (target.value = "") : false;
+//       element.value === "" && ((target.value = ""), (target2.value = ""));
+//     };
+//   };
+// };
+
+// converter(som, usd, eur, "som");
+// converter(usd, som, eur, "usd");
+// converter(eur, som, usd, "eur");
+
+const converterContainer = document.querySelector(".inner_converter");
+const inputFields = converterContainer.querySelectorAll("input");
+
+converterContainer.addEventListener("input", convertAll);
+
+function convertAll(event) {
+  if (event.target.value === "") {
+    inputFields.forEach((input) => {
+      input.value = "";
+    });
+    return;
+  }
+  const inputCurrency = event.target.id;
+  const inputValue = event.target.value;
+
+  const request = new XMLHttpRequest();
+  request.open("GET", "../data/converter.json");
+  request.setRequestHeader("Content-type", "application/json");
+  request.send();
+
+  request.onload = () => {
+    const convertionRates = JSON.parse(request.response);
+    const somValue = inputValue * convertionRates[inputCurrency];
+
+    inputFields.forEach((input) => {
+      input.value =
+        Math.round((somValue * 100) / convertionRates[input.id]) / 100;
+    });
   };
-};
-
-converter(som, usd, eur, "som");
-converter(usd, som, eur, "usd");
-converter(eur, som, usd, "eur");
+}
