@@ -167,7 +167,7 @@ const btnPrev = document.querySelector("#btn-prev");
 
 let count = 1;
 
-const changeColor = (item) => {
+const cardColor = (item) => {
   item.completed
     ? (card.style.background = "green")
     : (card.style.background = "red");
@@ -177,15 +177,16 @@ const getTodos = () => {
   fetch(`https://jsonplaceholder.typicode.com/todos?_limit=1&_page=${count}`)
     .then((response) => response.json())
     .then((data) => {
-      data?.forEach((item) => {
-        card.innerHTML = `
+      //data.forEach((item) => {
+      const item = data[0];
+      card.innerHTML = `
                 <h3>${item?.id}</h3>
                 <h4>${item?.title}</h4>
                 <p>${item?.completed}</p>
                 `;
-        changeColor(item);
-      });
+      cardColor(item);
     });
+  //  });
 };
 
 getTodos();
@@ -199,3 +200,9 @@ btnPrev.onclick = () => {
   count < 1 ? (count = 200) : count--;
   getTodos();
 };
+
+fetch("https://jsonplaceholder.typicode.com/posts")
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+  });
