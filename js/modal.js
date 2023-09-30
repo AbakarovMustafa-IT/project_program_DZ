@@ -39,26 +39,56 @@ function checkScrollAndShowModal() {
 }
 
 window.addEventListener("scroll", checkScrollAndShowModal);
-window.onload = () => (modalTimer = setTimeout(openModal, 10000));
+modalTimer = setTimeout(openModal, 10000);
 
 // POST DATA
 
 const form = document.querySelector("form");
 
-const postData = (formElement) => {
-  formElement.addEventListener("submit", (event) => {
+const postData = async (formElement) => {
+  formElement.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const request = new XMLHttpRequest();
-    request.open("POST", "server.php");
-    request.setRequestHeader("Content-type", "application/json");
+    try {
+      const formData = new FormData(formElement);
+      const obj = {};
 
-    const formData = new FormData(formElement);
-    const obj = {};
-    formData.forEach((item, index) => (obj[index] = item));
+      formData.forEach((item, index) => (obj[index] = item));
 
-    request.send(JSON.stringify(obj));
+      const response = await fetch("server.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(obj),
+      });
+
+      const responseData = await response.json();
+      console.log(responseData);
+    } catch (error) {
+      console.log(error, "ERROR!!!");
+    }
   });
 };
 
 postData(form);
+
+// const form = document.querySelector("form");
+
+// const postData = (formElement) => {
+//   formElement.addEventListener("submit", (event) => {
+//     event.preventDefault();
+
+//     const request = new XMLHttpRequest();
+//     request.open("POST", "server.php");
+//     request.setRequestHeader("Content-type", "application/json");
+
+//     const formData = new FormData(formElement);
+//     const obj = {};
+//     formData.forEach((item, index) => (obj[index] = item));
+
+//     request.send(JSON.stringify(obj));
+//   });
+// };
+
+// postData(form);
