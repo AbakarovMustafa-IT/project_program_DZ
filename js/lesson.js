@@ -232,39 +232,7 @@ const temp = document.querySelector(".temp");
 
 // API
 
-const DEFAULT_API = "http://api.openweathermap.org/data/2.5/weather";
-const API_KEY = "e417df62e04d3b1b111abeab19cea714";
 
-// opyional chaining - ?.
-// How to work optional chaining
-
-// const obj = {
-//   name: "Mustafa",
-//   cat: {
-//     name: "Elrih"
-//   }
-// }
-
-// console.log(obj.dog.name); // Выведется ошибка
-// console.log(obj?.dog?.name); // Выведется undefined;
-
-// const arr = [1, 2, 3];
-
-// arr?.map();
-
-cityName.oninput = async (event) => {
-  try {
-    const response = await fetch(
-      `${DEFAULT_API}?q=${event.target.value}&appid=${API_KEY}`
-    );
-    const data = await response.json();
-    city.innerHTML = data?.name || "Город не найден...";
-    temp.innerHTML = data?.main?.temp
-      ? Math.round(data?.main?.temp - 273) + "&deg;C"
-      : "...";
-  } catch (error) {
-    console.log(error, "ERROR!");
-  }
 
   // btnSearch.onclick = () => {
   //   fetch(`${DEFAULT_API}?q=${cityName.value}&appid=${API_KEY}`)
@@ -273,4 +241,4 @@ cityName.oninput = async (event) => {
   //       city.innerHTML = data.name;
   //       temp.innerHTML = Math.round(data.main.temp - 273) + "&deg;C";
   //     });
-};
+

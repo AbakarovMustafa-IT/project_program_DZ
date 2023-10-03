@@ -1,0 +1,60 @@
+body {
+    background-color: #000;
+    transition: all 0.15s ease-out;
+}
+
+body.dark-theme {
+    background-color: #fff;
+}
+
+body.dark-theme * {
+    background-color: #FFF;
+    color: black;
+}
+
+#change-theme-btn {
+    font: inherit;
+    padding: 0.1em 0.25em;
+    border: 0;
+    border-radius: 15px;
+    outline: 0;
+    color: var(--orange);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+#change-theme-btn::before,
+#change-theme-btn::after {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.15s ease-out;
+}
+
+#change-theme-btn::after {
+    background-color: #fff;
+    left: 100%;
+}
+
+#change-theme-btn:hover {
+    text-decoration: underline;
+}
+
+.dark-theme #change-theme-btn {
+    color: #222;
+}
+
+.dark-theme #change-theme-btn::before {
+    left: -100%;
+}
+
+.dark-theme #change-theme-btn::after {
+    left: 0;
+}

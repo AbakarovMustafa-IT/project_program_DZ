@@ -43,7 +43,7 @@ modalTimer = setTimeout(openModal, 10000);
 
 // POST DATA
 
-const form = document.querySelector("form");
+const form = document.getElementsByClassName("form-modal");
 
 const postData = async (formElement) => {
   formElement.addEventListener("submit", async (event) => {

@@ -71,6 +71,18 @@
   place-content: center;
 }
 
+.first-row,
+.second-row {
+  display: flex;
+  gap: 15px;
+}
+
+.first-row div,
+.second-row div {
+  display: flex;
+  flex-direction: column;
+}
+
 .tab_content_item_active {
   background: var(--orange);
   color: black;
@@ -139,10 +151,6 @@
   margin-top: 50px;
 }
 
-.inner_converter>div {
-  display: flex;
-  flex-direction: column;
-}
 
 /*------WEATHER------*/
 
